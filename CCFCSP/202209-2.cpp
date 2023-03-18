@@ -27,3 +27,29 @@ int main(){
 	cout<<ans;
 	return 0;
 } 
+
+
+//递归，需要剪枝，不然会超时
+#include<iostream>
+using namespace std;
+
+int arr[32],minp=31*10000,n,x;
+int brr[32];   //前缀和序列
+
+void dfs(int k,int sum){
+	if(k>n||sum+brr[n]-brr[k-1]<x) return;  //当前检查点K大于n则停止，如果后续所有节点加上当前总数都无法到达X，则剪枝
+	if(sum+arr[k]>=x&&sum+arr[k]<minp) minp=sum+arr[k]; //更新当前的最小值
+	dfs(k+1,sum+arr[k]);  //递归选择当前这本
+	dfs(k+1,sum);  //递归放弃当前这本
+} 
+
+int main(){
+	cin>>n>>x;
+	for(int i=1;i<=n;i++){
+		cin>>arr[i];
+		brr[i]=brr[i-1]+arr[i];	 //前缀和
+	}
+	dfs(1,0);
+	cout<<minp;
+	return 0; 
+}
