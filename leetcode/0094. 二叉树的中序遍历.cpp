@@ -22,3 +22,25 @@ public:
         return ans;
     }
 };
+
+//非递归版本
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<TreeNode*> list;
+        vector<int> ans;
+        while(root!=nullptr||!list.empty()){
+            if(root!=nullptr){
+                list.push_back(root);
+                root = root->left;
+            }
+            else{
+                root = list[list.size()-1];
+                list.pop_back();
+                ans.push_back(root->val);
+                root = root->right;
+            }
+        }
+        return ans;
+    }
+};
